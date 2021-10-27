@@ -78,7 +78,6 @@ module.exports.loop = function () {
             {align: 'left', opacity: 0.8});
     }
 
-    // 遍历creep，运行相应的程序
     for(var name in Game.creeps) { 
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
