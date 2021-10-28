@@ -22,10 +22,10 @@ const utilBasic = {
         let min = 0;
         // 遍历身体部件比例
         for (let i = 0; i < type_list.length; i++) {
-            // 从身体部件列表获取身体部件名字,变成大写
-            let currentBody = config.creep_body_list[i].toUpperCase();
+            // 从身体部件列表获取身体部件名字
+            let currentBody = config.creep_body_list[i];
             // 使用比例乘以当前身体部件的消耗，然后累加到min中
-            min = min + type_list[i]*config.creep_body_spend[currentBody];
+            min = min + type_list[i] * BODYPART_COST[currentBody];
             // body.append(config.creep_body_list[i]);
         }
         // 获取当前规划的最多能量能造几倍的creep
@@ -51,5 +51,14 @@ const utilBasic = {
             {memory: {role: role,work: work}});
     }
 };
+
+export const findFreeSpace = (pos) => {
+    const terrain = new Room.Terrain(pos.roomName);
+    const result = [];
+
+    const xs = [pos.x - 1, pos.x, pos.x + 1];
+    const ys = [pos.y - 1, pos.y, pos.y + 1];
+}
+
 
 module.exports = utilBasic;
