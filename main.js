@@ -3,6 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleUpgrader2 = require('role.upgrader2');
 var roleBuilder = require('role.builder');
 var roleDefender = require('role.defender');
+var roleRepair = require('role.repair');
 
 module.exports.loop = function () {
 
@@ -42,18 +43,18 @@ module.exports.loop = function () {
     }
 
     // builder 数量，不够则生成新的
-    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    // console.log('Builders: ' + builders.length);
-    if (harvesters.length > 2 && builders.length < 2) {
-        var newBuilderName = 'Builder' + Game.time;
-        Game.spawns['Spawn0'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newBuilderName,
-        { memory: { role: 'builder' } });
-    }
+    // var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+    // // console.log('Builders: ' + builders.length);
+    // if (harvesters.length > 2 && builders.length < 3) {
+    //     var newBuilderName = 'Builder' + Game.time;
+    //     Game.spawns['Spawn0'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newBuilderName,
+    //     { memory: { role: 'builder' } });
+    // }
 
     // upgrader 数量，不够则生成新的
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     // console.log('Upgraders: ' + upgraders.length);
-    if (harvesters.length > 2 && upgraders.length < 6) {
+    if (harvesters.length > 2 && upgraders.length < 7) {
         var newUpgraderName = 'Upgrader' + Game.time;
         Game.spawns['Spawn0'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newUpgraderName,
         { memory: { role: 'upgrader' } });
@@ -66,6 +67,13 @@ module.exports.loop = function () {
         var newUpgraderName2 = 'Upgrader2' + Game.time;
         Game.spawns['Spawn0'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newUpgraderName2,
         { memory: { role: 'upgrader2' } });
+    }
+
+    var repairs = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair');
+    if (harvesters.length > 2 && repairs.length < 2) {
+        var newRepairName = 'Repair' + Game.time;
+        Game.spawns['Spawn0'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newRepairName,
+            { memory: { role: 'repair' } });
     }
     
     // spawn 生成新的creep的时候，提示
@@ -94,6 +102,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if(creep.memory.role == 'repair') {
+            roleRepair.run(creep);
         }
     }
 }
