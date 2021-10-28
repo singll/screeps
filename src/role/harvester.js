@@ -6,7 +6,7 @@
  * var mod = require('role.harvester');
  * mod.thing == 'a thing'; // true
  */
-var roleHarvester = {
+const Harvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -24,7 +24,7 @@ var roleHarvester = {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                             structure.structureType == STRUCTURE_SPAWN ||
-                            // structure.structureType == STRUCTURE_CONTAINER ||
+                            structure.structureType == STRUCTURE_STORAGE ||
                             structure.structureType == STRUCTURE_TOWER) && 
                             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
@@ -44,4 +44,4 @@ var roleHarvester = {
   }
 };
 
-module.exports = roleHarvester;
+module.exports = Harvester;

@@ -6,7 +6,7 @@
  * var mod = require('role.defender');
  * mod.thing == 'a thing'; // true
  */
-var roleDefender = {
+const Defender = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -43,4 +43,4 @@ var roleDefender = {
   }
 };
 
-module.exports = roleDefender;
+module.exports = Defender;

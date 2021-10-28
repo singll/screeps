@@ -1,0 +1,33 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "my screeps game code",
+  "main": "main.js",
+  "dependencies": {
+    "source-map": "^0.6.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "rollup": "^2.58.3",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-screeps": "^1.0.1"
+  },
+  "scripts": {
+    "push": "rollup -cw --environment DEST:main",
+    "local": "rollup -cw --environment DEST:local",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/singll/screeps.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/singll/screeps/issues"
+  },
+  "homepage": "https://github.com/singll/screeps#readme"
+}

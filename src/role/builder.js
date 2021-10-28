@@ -7,7 +7,7 @@
  * mod.thing == 'a thing'; // true
  */
 
-var roleBuilder = {
+const Builder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -38,4 +38,4 @@ var roleBuilder = {
   }
 };
 
-module.exports = roleBuilder;
+module.exports = Builder;

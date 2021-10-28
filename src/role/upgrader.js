@@ -7,7 +7,7 @@
  * mod.thing == 'a thing'; // true
  */
 
-var roleUpgrader = {
+const Upgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -35,4 +35,4 @@ var roleUpgrader = {
     }
 };
 
-module.exports = roleUpgrader;
+module.exports = Upgrader;
