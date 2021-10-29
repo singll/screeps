@@ -1,41 +1,29 @@
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('role.builder');
- * mod.thing == 'a thing'; // true
+/**
+ * 建造者配置生成器
+ * source: 从指定矿中挖矿
+ * target: 将其转移到指定的 roomController 中
+ * 
+ * @param sourceId 要挖的矿 id
  */
-
-const Builder = {
-
-    /** @param {Creep} creep **/
-    run: function(creep) {
-
-      if(creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
-            creep.memory.building = false;
-            creep.say('🔄 harvest');
-      }
-      if(!creep.memory.building && creep.store.getFreeCapacity() == 0) {
-          creep.memory.building = true;
-          creep.say('🚧 build');
-      }
-
-      if(creep.memory.building) {
-          var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                }
+ const Builder = sourceId => ({
+    // 采集能量矿
+    source: creep => {
+        const source = Game.getObjectById(sourceId);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) creep.moveTo(source)
+        // 自己身上的能量装满了，返回 true（切换至 target 阶段）
+        return creep.store.getFreeCapacity() <= 0
+    },
+    // 添加能量
+    target: creep => {
+        const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+        if(targets.length) {
+            if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
             }
-      }
-      else {
-          var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-      }
-  }
-};
+        }
+        // 自己身上的能量没有了，返回 true（切换至 source 阶段）
+        return creep.store[RESOURCE_ENERGY] <= 0
+    }
+})
 
-module.exports = Builder;
+export default Builder;

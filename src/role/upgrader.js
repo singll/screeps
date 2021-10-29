@@ -1,38 +1,27 @@
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('role.upgrader');
- * mod.thing == 'a thing'; // true
+/**
+ * 升级者配置生成器
+ * source: 从指定矿中挖矿
+ * target: 将其转移到指定的 roomController 中
+ * 
+ * @param sourceId 要挖的矿 id
  */
+const Upgrader = sourceId => ({
+    // 采集能量矿
+    source: creep => {
+        const source = Game.getObjectById(sourceId)
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) creep.moveTo(source)
 
-const Upgrader = {
+        // 自己身上的能量装满了，返回 true（切换至 target 阶段）
+        return creep.store.getFreeCapacity() <= 0
+    },
+    // 升级控制器
+    target: creep => {
+        const controller = creep.room.controller
+        if (creep.upgradeController(controller) == ERR_NOT_IN_RANGE) creep.moveTo(controller)
 
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        if(creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
-            creep.memory.upgrading = false;
-            creep.say('🔄 harvest');
-      }
-      if(!creep.memory.upgrading && creep.store.getFreeCapacity() == 0) {
-          creep.memory.upgrading = true;
-          creep.say('🚧 upgrade');
-      }
-
-      if(creep.memory.upgrading) {
-        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#4fcf30'}});
-        }
-      }
-      else {
-        var sources = creep.room.find(FIND_SOURCES);
-        if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#4fcf30'}});
-        }
-      }
-
+        // 自己身上的能量没有了，返回 true（切换至 source 阶段）
+        return creep.store[RESOURCE_ENERGY] <= 0
     }
-};
+})
 
-module.exports = Upgrader;
+export default Upgrader;

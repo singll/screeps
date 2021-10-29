@@ -41,30 +41,33 @@ const Worker = {
                             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });
+
+            const builder_targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             // const total = _.sum(container.store);
             // const totalEnergy = creep.room.energyCapacityAvailable;
             // const currentEnergy = creep.room.energyAvailable;
             // console.log(totalEnergy);
-            const work = creep.memory.work;
-            if (work == 'harvest') {
-                
-                if(harvestTargets.length > 0) {
-                    if(creep.transfer(harvestTargets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(harvestTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                    }
+            if(harvestTargets.length > 0) {
+                if(creep.transfer(harvestTargets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(harvestTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
-            } else if (work == 'upgrade')  {
-                if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#4fcf30'}});
+            } else if(builder_targets.length) {
+                if(creep.build(builder_targets[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(builder_targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
         else {
             // 获取能量的代码，这里可以进行优化，去距离最近的矿点进行采矿
             // TODO
+            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
             var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+            if(target) {
+                if(creep.pickup(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            }else if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
   }

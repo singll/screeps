@@ -11,7 +11,7 @@
 import { creep_body_list, creep_type_body_proportion } from '../modules/config';
 
 
-const create_creep = (spawn, role, work, max) => {
+const create_creep = (spawn, role, alias, max, ...args) => {
     const newName = role + Game.time;
     // console.log('Spawning new harvester: ' + newName);
     let body = [];
@@ -47,7 +47,7 @@ const create_creep = (spawn, role, work, max) => {
         }
     }
     spawn.spawnCreep(body, newName, 
-        {memory: {role: role,work: work}});
+        {memory: {alias:alias}});
 }
 
 
