@@ -21,6 +21,24 @@
                 creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
+        const harvestTargets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_EXTENSION ||
+                        structure.structureType == STRUCTURE_SPAWN ) && 
+                        structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            }
+        });
+        const builder_targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+        // const shua = creep.room.find(FIND_)
+        if(builder_targets.length > 0) {
+            if(creep.build(builder_targets[0]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(builder_targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        } else if(harvestTargets.length > 0) {
+            if(creep.transfer(harvestTargets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(harvestTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        }
         // 自己身上的能量没有了，返回 true（切换至 source 阶段）
         return creep.store[RESOURCE_ENERGY] <= 0
     }

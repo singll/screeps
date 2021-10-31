@@ -11,6 +11,7 @@ import Harvester from "../role/harvester";
 import Defender from "../role/defender";
 import Repair from "../role/repair";
 import Worker from "../role/worker";
+import Builder from "../role/builder";
 
 export const roles = {
     'harvester': Harvester,
@@ -18,6 +19,7 @@ export const roles = {
     'defender': Defender,
     'repair': Repair,
     'worker': Worker,
+    'builder': Builder,
 }
 
 export const creep_type_body_proportion = {
@@ -26,6 +28,7 @@ export const creep_type_body_proportion = {
     'builder':[1,1,2],
     'upgrader':[1,1,2],
     'repair':[1,1,2],
+    'defender': [1,1,2],
 };
 
 export const creep_body_list = [WORK,CARRY,MOVE,TOUGH,ATTACK,RANGED_ATTACK,HEAL,CLAIM];

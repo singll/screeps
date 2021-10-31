@@ -25,11 +25,23 @@
                         structure.hits < structure.hitsMax;
             }
         });
+        const harvestTargets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_EXTENSION ||
+                        structure.structureType == STRUCTURE_SPAWN ) && 
+                        structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            }
+        });
+        
         if(targets.length > 0) {
             if(creep.repair(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
             }
-        } else if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+        } else if(harvestTargets.length > 0) {
+            if(creep.transfer(harvestTargets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(harvestTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        }else if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#4fcf30'}});
         }
         // 自己身上的能量没有了，返回 true（切换至 source 阶段）

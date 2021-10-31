@@ -1,14 +1,9 @@
 /*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('util.basic');
- * mod.thing == 'a thing'; // true
+ * Creep 管理的API
  */
 
-// const config = require('config');
-import { creep_body_list, creep_type_body_proportion } from '../modules/config';
+
+import { creep_body_list, creep_type_body_proportion } from '../config/global';
 
 
 const create_creep = (spawn, role, alias, max, ...args) => {
@@ -46,8 +41,7 @@ const create_creep = (spawn, role, alias, max, ...args) => {
             body.push(currentBody);
         }
     }
-    spawn.spawnCreep(body, newName, 
-        {memory: {alias:alias}});
+    return spawn.spawnCreep(body, newName, {memory: {role:role,alias:alias}});
 }
 
 

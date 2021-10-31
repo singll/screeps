@@ -6,11 +6,28 @@ function mountCreep() {
 
 // 自定义的 Creep 的拓展
 const creepExtension = {
-    // 工作
+    /**
+     * creep的执行工作逻辑
+     * @returns none
+     */
     work() {
+        // 如果 creep 还没有发送重生信息的话，执行健康检查，保证只发送一次生成任务
+        // 健康检查不通过则向 spawnList 发送自己的生成任务
+        if (!this.memory.hasSendRebirth) {
+            const health = this.isHealthy();
+            if (!health) {
+                // 向指定 spawn 推送生成任务
+                // room.find(FIND_MY_SPAWNS)
+                const spawns = this.room.find(FIND_MY_SPAWNS);
+                const taskName = this.memory.role + ":" + this.memory.alias;
+                spawns[0].addTask(taskName);
+                this.memory.hasSendRebirth = true;
+            }
+        }
+
         // ------------------------ 第一步：获取 creep 执行逻辑 ------------------------
 
-        // 获取对应配置项
+        // 获取对应别名
         const creepAlias = creepApi.get(this.memory.alias)
         // 检查 creep 内存中的别名是否存在
         if (!creepAlias) {
@@ -47,6 +64,15 @@ const creepExtension = {
 
         // 状态变化了就切换工作阶段
         if (stateChange) this.memory.working = !this.memory.working;
+    },
+    /**
+     * 判断是否健康
+     * @returns boolean
+     */
+    isHealthy() {
+        if (this.ticksToLive <= 10) return false;
+        // 其他逻辑，比如判断当前工作状态，能否完成任务等
+        return true;
     },
     // 自定义敌人检测
     checkEnemy() { 

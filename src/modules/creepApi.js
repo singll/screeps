@@ -16,7 +16,7 @@ const creepApi = {
      * @param 别名 要移除的配置项名称
      */
     remove(alias) {
-        delete Memory.creepAlias[alias]
+        delete Memory.creepAlias[alias];
         return `${alias} 别名已移除`
     },
     /**
@@ -25,7 +25,7 @@ const creepApi = {
      * @returns 对应的别名，若不存在则返回 undefined
      */
     get(alias) {
-        if (!Memory.creepAlias) return undefined
+        if (!Memory.creepAlias) return undefined;
         return Memory.creepAlias[alias]
     },
 }
