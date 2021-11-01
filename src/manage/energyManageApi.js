@@ -31,9 +31,14 @@ const energyManageApi = {
         return result;
 
     },
-
+    /**
+     * 获取单个creep的能量
+     * @param {*} room 
+     * @returns 
+     */
     creep(room) {
         let result = 300;
+        return result;
 
     }
 //     getMode() {
