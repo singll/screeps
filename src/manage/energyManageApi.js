@@ -38,6 +38,8 @@ const energyManageApi = {
      */
     creep(room) {
         let result = 300;
+        const status = this.status(room);
+        // if (status > 1)
         return result;
 
     }

@@ -10,11 +10,18 @@ import create_creep from './manage/creepManageApi';
 
 // 游戏入口函数
 export const loop = errorMapper(() => {
-
+    // 激活安全模式：别动我！
+    const main_spawn = Game.spawns['Spawn0'];
+    if (main_spawn.hits  < main_spawn.hitsMax){
+        main_spawn.room.controller.activateSafeMode();
+    }
     // 每个房间都执行策略
     for (const room in Game.rooms) {
+        // 获取当前的房间对象
         const current_room = Game.rooms[room];
+        // 初始化生成爬的最大能量
         if (!current_room.memory.creep_energy_max) current_room.memory.creep_energy_max = 500;
+        // 初始化一下任务队列
         if (!current_room.memory.spawnList) current_room.memory.spawnList = [];
         // const max_energy = current_room.energyCapacityAvailable;
         // const current_energy = current_room.energyAvailable;
@@ -27,20 +34,17 @@ export const loop = errorMapper(() => {
         const current_energy_status = energyManageApi.status(current_room);
         console.log("[房间能量状态]"+current_energy_status);
 
-        // Tower防御代码
-        const tower = Game.getObjectById('617cb47d047f443a0f11d762');
-        if(tower) {
-            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if(closestHostile) {
-                tower.attack(closestHostile);
+        // tower 防御代码
+        const towers = current_room.find(FIND_MY_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_TOWER);
             }
-            // const Enemy =current_room.find(FIND_HOSTILE_CREEPS,{
-            //                     filter:(creep)=>{
-            //                         return creep.owner.username == 'Enemy' && creep.owner.username != 'Invader'
-            //                     }});
-            // if (Enemy.length && Game.time % 30 == 0)  current_room.controller.activateSafeMode()
-        }
-        
+        });
+        towers.forEach(tower => {
+            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            tower.attack(closestHostile);
+        })
+
 
         // 清除memory代码
         for(const name in Memory.creeps) {
