@@ -6,6 +6,7 @@ var flag_creep_dic={'source':'harvester','core':'carrier'};
 const C=(arr)=>[].concat(...arr);
 const R=(arr,repeats)=>[].concat([].concat(...Array.from({length:repeats},()=>arr)));
 Flag.prototype.init_flag=function(type,room_name,serve_id=-1){
+    // 什么类型
     this.memory.type=type;
     this.memory.flag_creeps=[];
     this.memory.creep_detail={'Body':[],'num':0,'Mem':{}};
@@ -31,7 +32,9 @@ Flag.prototype.run=function(){
 Flag.prototype.upgrade_creep=function(){
     // 类型
     var type=0;
-    // 应该是判断是否有container和link
+    // 0 无container无link
+    // 1 有container无link
+    // 2 有link无container
     if(this.memory.container_id==-1) type=0;
     else if(this.memory.link_id==-1) type=1;
     else type=2;
@@ -95,6 +98,6 @@ Flag.prototype.build_link=function(){
 }
 // 获得 最多 效率 工人
 Flag.prototype.get_most_efficiency_worker=function(type){
-    //
+    // type的文件对应的类型 
     return type_dic[this.memory.type].get_most_efficiency_worker(this,type);
 }

@@ -32,11 +32,13 @@ var typeSource={
     }
     ,
     get_most_efficiency_worker:function(flag,type){
+        // 总额除以五十，分成50份
         var total=Game.rooms[flag.memory.center_room].energyCapacityAvailable/50;
         var keep=[];
         var move_time_keep;
         if(type==0){//无container
             var max_eff=0;
+            
             for(let move=1;move<=total/2;move++){
                 for(let carry=1;carry<total-move-2;carry++){
                     for(let work=1;work<=(total-move-carry)/2;work++){
