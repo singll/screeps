@@ -34,6 +34,9 @@
             if(creep.build(builder_targets[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(builder_targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
             }
+        } else {
+            const controller = creep.room.controller;
+            if (creep.upgradeController(controller) == ERR_NOT_IN_RANGE) creep.moveTo(controller);
         }
 
         // 自己身上的能量没有了，返回 true（切换至 source 阶段）

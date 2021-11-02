@@ -38,6 +38,9 @@
             if(creep.transfer(harvestTargets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(harvestTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
             }
+        } else {
+            const controller = creep.room.controller;
+            if (creep.upgradeController(controller) == ERR_NOT_IN_RANGE) creep.moveTo(controller);
         }
         // 自己身上的能量没有了，返回 true（切换至 source 阶段）
         return creep.store[RESOURCE_ENERGY] <= 0
