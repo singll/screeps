@@ -31,8 +31,10 @@ export const loop = errorMapper(() => {
         // sources.forEach((source) => {
         //     source_pos = findFreeSpace(source.pos);
         // })
-        const current_energy_status = energyManageApi.status(current_room);
-        console.log("[房间能量状态]"+current_energy_status);
+        // const current_energy_status = energyManageApi.status(current_room);
+        // console.log("[房间能量状态]"+current_energy_status);
+        const current_energy_percent = energyManageApi.percent(current_room);
+        console.log("[房间能量百分比]"+current_energy_percent);
 
         // tower 防御代码
         const towers = current_room.find(FIND_MY_STRUCTURES, {

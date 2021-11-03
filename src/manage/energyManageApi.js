@@ -16,6 +16,9 @@ const energyManageApi = {
         let result = 0;
         const max = room.energyCapacityAvailable;
         const current = room.energyAvailable;
+        const level = room.controller.level;
+        const percent = this.percent(room);
+        
         if (current < energyManageApi._min) {
             return result;
         }
@@ -30,6 +33,14 @@ const energyManageApi = {
         }
         return result;
 
+    },
+    percent(room) {
+        const max = parseFloat(room.energyCapacityAvailable);
+        const current = parseFloat(room.energyAvailable);
+        if (isNaN(current) || isNaN(max)) {
+            return "-";
+        }
+        return max <= 0 ? parseInt(0.0) : parseInt(Math.round(current / max * 10000) / 100.00);
     },
     /**
      * 获取单个creep的能量
