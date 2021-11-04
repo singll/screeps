@@ -5,7 +5,7 @@ mount();
 import energyManageApi from './manage/energyManageApi';
 import { errorMapper } from './modules/errorMapper';
 import create_creep from './manage/creepManageApi';
-// import { findFreeSpace } from './modules/utils';
+import { findFreeSpace } from './modules/utils';
 
 
 // 游戏入口函数
@@ -23,14 +23,24 @@ export const loop = errorMapper(() => {
         if (!current_room.memory.creep_energy_max) current_room.memory.creep_energy_max = 500;
         // 初始化一下任务队列
         if (!current_room.memory.spawnList) current_room.memory.spawnList = [];
+        // 初始化一下采矿点
+        // if (!current_room.memory.sourcePoss) {
+        //     let sourcePoss = [];
+        //     const sources = current_room.find(FIND_SOURCES);
+        //     sources.forEach((source) => {
+        //         const source_pos = findFreeSpace(source.pos);
+        //         sourcePoss = sourcePoss.concat(source_pos);
+        //     })
+        //     current_room.memory.sourcePoss=sourcePoss;
+        // }
+        // console.log("[采矿点]");
+        // console.log(current_room.memory.sourcePoss);
         // const max_energy = current_room.energyCapacityAvailable;
         // const current_energy = current_room.energyAvailable;
 
         // const spawns = current_room.find(FIND_MY_SPAWNS);
-        // const sources = current_room.find(FIND_SOURCES);
-        // sources.forEach((source) => {
-        //     source_pos = findFreeSpace(source.pos);
-        // })
+
+        
         // const current_energy_status = energyManageApi.status(current_room);
         // console.log("[房间能量状态]"+current_energy_status);
         const current_energy_percent = energyManageApi.percent(current_room);

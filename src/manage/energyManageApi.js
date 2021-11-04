@@ -14,10 +14,11 @@ const energyManageApi = {
      */
     status(room) {
         let result = 0;
+        // 根据能量百分比 获取能量的速度 消耗能量的速度 
         const max = room.energyCapacityAvailable;
         const current = room.energyAvailable;
-        const level = room.controller.level;
-        const percent = this.percent(room);
+        // const level = room.controller.level;
+        // const percent = this.percent(room);
         
         if (current < energyManageApi._min) {
             return result;
