@@ -7,7 +7,7 @@ export const findFreeSpace = (pos) => {
     xs.forEach((x) => {
         ys.forEach((y) => {
             if (terrain.get(x,y) != TERRAIN_MASK_WALL) 
-                result.push(new RoomPosition(x, y, pos.roomName));
+                result.push(new Array(x, y));
         });
     });
     return result;
